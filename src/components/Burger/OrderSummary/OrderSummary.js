@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Aux from '../../../hoc/Aux';
 import Button from '../../UI/Button/Button';
 
@@ -6,17 +7,19 @@ class OrderSummary extends React.Component {
   componentDidUpdate() {
     console.log('[OrderSummary] Did update');
   }
-  
-  render () {
-    const ingredientSummary = Object.keys(this.props.ingredients).map((igKey) => {
-      return (
-        <li key={igKey}>
-          <span style={{ textTransform: 'capitalize' }}>{igKey}</span>:{' '}
-          {this.props.ingredients[igKey]}
-        </li>
-      );
-    });
-    
+
+  render() {
+    const ingredientSummary = Object.keys(this.props.ingredients).map(
+      (igKey) => {
+        return (
+          <li key={igKey}>
+            <span style={{ textTransform: 'capitalize' }}>{igKey}</span>:{' '}
+            {this.props.ingredients[igKey]}
+          </li>
+        );
+      }
+    );
+
     return (
       <Aux>
         <h3>Your Order</h3>
@@ -34,7 +37,7 @@ class OrderSummary extends React.Component {
         </Button>
       </Aux>
     );
-  };
-};
+  }
+}
 
 export default OrderSummary;
