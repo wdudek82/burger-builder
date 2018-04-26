@@ -13,14 +13,14 @@ class Checkout extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.location.search);
     const searchParams = this.props.location.search;
-    const ingredients = new URLSearchParams(searchParams);
+    const query = new URLSearchParams(searchParams);
 
-    for (let [k, v] of ingredients.entries()) {
-      this.setState((prevState) => (prevState.ingredients[k] = +v));
+    const ingredients = {};
+    for (let [k, v] of query.entries()) {
+      ingredients[k] = +v;
     }
-    console.log(this.state);
+    this.setState(() => ({ ingredients: ingredients}));
   }
 
   checkoutCancelledHandler = () => {
