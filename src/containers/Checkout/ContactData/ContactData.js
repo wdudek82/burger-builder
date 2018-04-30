@@ -21,7 +21,8 @@ class ContactData extends React.Component {
         validation: {
           required: true
         },
-        valid: false
+        valid: false,
+        touched: false
       },
       street: {
         elementType: 'input',
@@ -33,7 +34,8 @@ class ContactData extends React.Component {
         validation: {
           required: true
         },
-        valid: false
+        valid: false,
+        touched: false
       },
       zipcode: {
         elementType: 'input',
@@ -47,7 +49,8 @@ class ContactData extends React.Component {
           minLength: 5,
           maxLength: 5
         },
-        valid: false
+        valid: false,
+        touched: false
       },
       contry: {
         elementType: 'input',
@@ -59,7 +62,8 @@ class ContactData extends React.Component {
         validation: {
           required: true
         },
-        valid: false
+        valid: false,
+        touched: false
       },
       email: {
         elementType: 'input',
@@ -71,7 +75,8 @@ class ContactData extends React.Component {
         validation: {
           required: true
         },
-        valid: false
+        valid: false,
+        touched: false
       },
       deliveryMethod: {
         elementType: 'select',
@@ -81,16 +86,15 @@ class ContactData extends React.Component {
             { value: 'cheapest', displayValue: 'Cheapest' }
           ]
         },
+        validation: {},
         value: 'fastest',
-        validation: {
-          required: true
-        },
-        valid: false
+        valid: true
       }
     },
-    loading: false,
-    ingredients: this.props.ingredients,
-    price: Number(this.props.price)
+    formIsValid: false,
+    loading: false
+    // ingredients: this.props.ingredients,
+    // price: Number(this.props.price)
   };
 
   componentWillMount() {
@@ -128,7 +132,6 @@ class ContactData extends React.Component {
 
     if (rules.minLength) {
       isValid = value.length >= rules.minLength && isValid;
-
     }
 
     if (rules.maxLength) {
@@ -150,9 +153,18 @@ class ContactData extends React.Component {
       updatedFormElement.value,
       updatedFormElement.validation
     );
-    console.log(updatedFormElement);
+    updatedFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormElement;
-    this.setState(() => ({ orderForm: updatedOrderForm }));
+
+    let formIsValid = true;
+    for (let key in updatedOrderForm) {
+      if (!updatedOrderForm[key].valid) {
+        formIsValid = false;
+        break;
+      }
+    }
+
+    this.setState(() => ({ orderForm: updatedOrderForm, formIsValid }));
   };
 
   render() {
@@ -172,10 +184,13 @@ class ContactData extends React.Component {
             elementType={formElement.config.elementType}
             elementConfig={formElement.config.elementConfig}
             value={formElement.config.value}
+            invalid={!formElement.config.valid}
+            shouldValidate={formElement.config.validation}
+            touched={formElement.config.touched}
             changed={(e) => this.inputChangedHandler(e, formElement.id)}
           />
         ))}
-        <Button btnType="Success">Order</Button>
+        <Button btnType="Success" disabled={!this.state.formIsValid}>Order</Button>
       </form>
     );
     if (this.state.loading) {
