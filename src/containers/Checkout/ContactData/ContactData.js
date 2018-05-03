@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import axios from '../../../axios-orders';
 import _ from 'lodash';
 
@@ -93,14 +94,7 @@ class ContactData extends React.Component {
     },
     formIsValid: false,
     loading: false
-    // ingredients: this.props.ingredients,
-    // price: Number(this.props.price)
   };
-
-  componentWillMount() {
-    console.log('ContactData: ', this.props);
-    console.log('ContactData state: ', this.state);
-  }
 
   orderHandler = (e) => {
     e.preventDefault();
@@ -108,8 +102,8 @@ class ContactData extends React.Component {
     this.setState(() => ({ loading: true }));
     const order = {
       orderData: _.mapValues(this.state.orderForm, (o) => o.value),
-      ingredients: this.state.ingredients,
-      price: this.state.price
+      ingredients: this.props.ings,
+      price: this.props.price
     };
 
     axios
@@ -206,4 +200,11 @@ class ContactData extends React.Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = (state) => {
+  return {
+    ings: state.ingredients,
+    price: state.totalPrice
+  };
+};
+
+export default connect(mapStateToProps)(ContactData);

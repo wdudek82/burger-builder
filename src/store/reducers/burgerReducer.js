@@ -18,11 +18,8 @@ const INGREDIENT_PRICES = {
 };
 
 const burgerReducer = (state = initialState, action) => {
-  const ingredientsCount = Object.values(state.ingredients);
-
   switch (action.type) {
     case actionTypes.ADD_INGREDIENT:
-      console.log('successfully added');
       return {
         ...state,
         ingredients: {
