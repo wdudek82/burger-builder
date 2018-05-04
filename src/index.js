@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import burgerReducer from './store/reducers/burgerReducer'
+import burgerBuilder from './store/reducers/burgerBuilder'
 
 import './index.css';
 import App from './App';
@@ -13,7 +13,7 @@ import registerServiceWorker from './registerServiceWorker';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  burgerReducer,
+  burgerBuilder,
   composeEnhancers(
     applyMiddleware(
       thunk
