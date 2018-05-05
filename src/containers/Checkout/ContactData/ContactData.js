@@ -8,6 +8,21 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 
 import classes from './ContactData.css';
+import styled from 'styled-components';
+
+const ContactDiv = styled.div`
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+    box-shadow: 0 2px 3px #ccc;
+    border: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+
+  @media (min-width: 600px) {
+    width: 500px;
+  }
+`;
 
 class ContactData extends React.Component {
   state = {
@@ -192,10 +207,10 @@ class ContactData extends React.Component {
     }
 
     return (
-      <div className={classes.ContactData}>
+      <ContactDiv>
         <h4>Enter your Contact Data</h4>
         {form}
-      </div>
+      </ContactDiv>
     );
   }
 }
