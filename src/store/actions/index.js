@@ -7,5 +7,6 @@ export {
 export {
   purchaseBurgerStart,
   purchaseBurgerSuccessAsync,
-  purchaseInit
+  purchaseInit,
+  fetchOrdersAsync
 } from './order';
