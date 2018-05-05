@@ -50,9 +50,11 @@ const Loader = styled.div`
 `;
 
 const spinner = (props) => (
-  <Loader>
-    Loading...
-  </Loader>
+  <React.Fragment>
+    <Loader>
+      Loading...
+    </Loader>
+  </React.Fragment>
 );
 
 export default spinner;

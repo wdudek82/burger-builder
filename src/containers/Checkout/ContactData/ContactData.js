@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions';
 import axios from '../../../axios-orders';
 import _ from 'lodash';
 
@@ -9,6 +10,7 @@ import Input from '../../../components/UI/Input/Input';
 
 import classes from './ContactData.css';
 import styled from 'styled-components';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 const ContactDiv = styled.div`
     margin: 20px auto;
@@ -108,28 +110,18 @@ class ContactData extends React.Component {
       }
     },
     formIsValid: false,
-    loading: false
   };
 
   orderHandler = (e) => {
     e.preventDefault();
 
-    this.setState(() => ({ loading: true }));
     const order = {
       orderData: _.mapValues(this.state.orderForm, (o) => o.value),
       ingredients: this.props.ings,
       price: this.props.price
     };
 
-    axios
-      .post('/orders.json', order)
-      .then((res) => {
-        this.setState(() => ({ loading: false, purchasing: false }));
-        this.props.history.replace('/');
-      })
-      .catch((err) => {
-        this.setState(() => ({ loading: false, purchasing: false }));
-      });
+    this.props.onOrderBurger(order);
   };
 
   checkValidity = (value, rules) => {
@@ -202,7 +194,7 @@ class ContactData extends React.Component {
         <Button btnType="Success" disabled={!this.state.formIsValid}>Order</Button>
       </form>
     );
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
 
@@ -217,9 +209,20 @@ class ContactData extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    ings: state.ingredients,
-    price: state.totalPrice
+    ings: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.totalPrice,
+    loading: state.orders.loading
   };
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onOrderBurger: (orderData) => (
+      dispatch(actionCreators.purchaseBurgerSuccessAsync(orderData))
+    ),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withErrorHandler(ContactData, axios)
+);
