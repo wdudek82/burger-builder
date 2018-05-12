@@ -8,7 +8,6 @@ import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 
-import classes from './ContactData.css';
 import styled from 'styled-components';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 

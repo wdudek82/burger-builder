@@ -10,3 +10,9 @@ export {
   purchaseInit,
   fetchOrdersAsync
 } from './order';
+
+export {
+  authStart,
+  authSuccess,
+  authFail
+} from './auth';
