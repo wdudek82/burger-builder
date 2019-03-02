@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
+import Spinner from '../../components/UI/Spinner/Spinner';
+
 import styled from 'styled-components';
 import * as actionCreators from '../../store/actions/auth';
 
@@ -124,31 +127,36 @@ class Auth extends React.Component {
       />
     ));
 
-    return (
-      <Div>
-        <form onSubmit={(e) => this.submitHandler(e)}>
-          {form}
-          <Button 
-            btnType="Success"
-            disabled={false}
+    let content = <Spinner />;
+    if (!this.props.auth.loading) {
+      content = (
+        <Div>
+          <form onSubmit={(e) => this.submitHandler(e)}>
+            {form}
+            <Button 
+              btnType="Success"
+              disabled={false}
+            >
+              Submit
+            </Button>
+          </form>
+          <Button
+            clicked={this.switchAuthModeHandler}
+            btnType="Danger"
           >
-            Submit
+            SWITCH TO { this.state.isSignup ? 'SIGNIN' : 'SIGNUP' }
           </Button>
-        </form>
-        <Button
-          clicked={this.switchAuthModeHandler}
-          btnType="Danger"
-        >
-          SWITCH TO { this.state.isSignup ? 'SIGNIN' : 'SIGNUP' }
-        </Button>
-      </Div>
-    );
+        </Div>
+      );
+    }
+
+    return content;
   }
 }
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth,
   }
 };
 
@@ -160,4 +168,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
